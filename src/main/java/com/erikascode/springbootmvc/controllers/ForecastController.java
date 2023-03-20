@@ -8,6 +8,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
@@ -20,17 +21,24 @@ import java.util.Scanner;
 public class ForecastController {
 
     @GetMapping("/")
-    public ModelAndView forecast() throws IOException {
+    public ModelAndView forecast(@RequestParam(required = false) String cityCode) throws IOException {
         var modelAndView = new ModelAndView("index");
         var indexModel = new IndexModel();
 
-        ArrayList<String> cities = getCities();
+        ArrayList<Place> cities = getCities();
         indexModel.cities = cities;
 
-        ArrayList<ForecastModel> forecasts = getForecast();
-        indexModel.forecasts = forecasts;
+        if(cityCode != null && !cityCode.equals("")) {
+            ArrayList<ForecastModel> forecasts = getForecast(cityCode);
+            indexModel.forecasts = forecasts;
+        }
 
+        if(cityCode == ""){
+            cityCode = null;
+        }
         modelAndView.addObject("IndexModel", indexModel);
+
+        indexModel.currentCityCode = cityCode;
 
         return modelAndView;
     }
@@ -53,8 +61,8 @@ public class ForecastController {
         return text;
     }
 
-    private static ArrayList<String> getCities() throws IOException {
-        var cities = new ArrayList<String>();
+    private static ArrayList<Place> getCities() throws IOException {
+        var cities = new ArrayList<Place>();
 
         var jsons =  loadDataJson("https://api.meteo.lt/v1/places");
 
@@ -62,20 +70,23 @@ public class ForecastController {
         Place[] places = om.readValue(jsons, Place[].class);
 
         for(var place : places){
-            cities.add(place.name);
+            var placeCode = new Place();
+            placeCode.code = place.code;
+            placeCode.name = place.name;
+            cities.add(placeCode);
         }
 
         return cities;
     }
 
-    private static ArrayList<ForecastModel> getForecast() throws IOException {
+    private static ArrayList<ForecastModel> getForecast(String cityCode) throws IOException {
         var forecasts = new ArrayList<ForecastModel>();
 
-        var jsons =  loadDataJson("https://api.meteo.lt/v1/places/vilnius/forecasts/long-term");
+        var jsons =  loadDataJson("https://api.meteo.lt/v1/places/"+ cityCode +"/forecasts/long-term");
         Root obj = createObject(jsons);
 
         for(var stamp : obj.forecastTimestamps){
-            var forecast = new ForecastModel(null, stamp.forecastTimeUtc, stamp.airTemperature);
+            var forecast = new ForecastModel(stamp.forecastTimeUtc, stamp.airTemperature);
             forecasts.add(forecast);
         }
 
