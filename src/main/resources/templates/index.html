@@ -13,16 +13,11 @@
     }
 </style>
 <body class="container">
-Hello World!
 
-<!--<ul th:each="city : ${IndexModel.cities}">-->
-<!--    <li th:text="${city}"></li>-->
-<!--</ul>-->
-
-<!--<select>-->
-<!--    <option></option>-->
-<!--    <option th:each="city : ${IndexModel.cities}" th:text="${city}" th:value="${city}"></option>-->
-<!--</select>-->
+<select>
+    <option></option>
+    <option th:each="city : ${IndexModel.cities}" th:text="${city}" th:value="${city}"></option>
+</select>
 
 <div class="forecast-block container">
     <table class="table">
