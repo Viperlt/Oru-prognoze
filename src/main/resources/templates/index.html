@@ -20,6 +20,12 @@
 </style>
 <body class="container">
 
+    <div>
+        <span>Labas </span>
+        <span th:text="${IndexModel.userName}"></span>
+        <span>!</span>
+    </div>
+
     <form th:action="@{/logout}" method="post">
         <input type="submit" value="Atsijungti"/>
     </form>
