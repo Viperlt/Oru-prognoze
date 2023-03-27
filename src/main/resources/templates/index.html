@@ -19,6 +19,12 @@
     }
 </style>
 <body class="container">
+
+    <form th:action="@{/logout}" method="post">
+        <input type="submit" value="Atsijungti"/>
+    </form>
+
+    <h1> Forecasts </h1>
     <div>
         <div th:if="${IndexModel.currentCityCode}"></div>
         <div th:unless="${IndexModel.currentCityCode}">Pasirinkite miesta</div>
