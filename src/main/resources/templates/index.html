@@ -17,20 +17,49 @@
         color: grey;
         display: none;
     }
+    body, html {
+        height: 100%;
+    }
+    .bg {
+        background-image: url("https://cdn.pixabay.com/photo/2016/03/27/07/32/clouds-1282314__340.jpg");
+        height: 100%;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
 </style>
-<body class="container">
+<body class="container bg">
 
-    <div>
-        <span>Sveiki, </span>
-        <span th:text="${IndexModel.userName}"></span>
-        <span>!</span>
+    <div class="d-flex flex-row">
+        <h4>Sveiki, </h4>
+        <h4 th:text="${IndexModel.userName}"></h4>
+        <h4>!</h4>
     </div>
 
-    <form th:action="@{/logout}" method="post">
-        <input type="submit" value="Atsijungti"/>
-    </form>
+    <div>
+        <nav class="navbar navbar-light">
 
-    <h1> Forecasts </h1>
+                <ul class="navbar-nav">
+                    <div class="d-flex flex-row align-items-center">
+                        <li class="m-1">
+                            <a class="navbar-brand h1" href="#">Oru Prognozes</a>
+                        </li>
+                        <li class="m-1">
+                            <a class="nav-link" href="http://localhost:8080/"> Namo </a>
+                        </li>
+                        <li class="m-2">
+                            <a class="nav-link" href="http://localhost:8080/my-forecasts"> Mano Prognozes </a>
+                        </li>
+                    </div>
+                </ul>
+            <div class="m-1">
+                <form class="form-inline" th:action="@{/logout}" method="post">
+                    <input class="form-control" type="submit" value="Atsijungti"/>
+                </form>
+            </div>
+        </nav>
+    </div>
+
     <div>
         <div th:if="${IndexModel.currentCityCode}"></div>
         <div th:unless="${IndexModel.currentCityCode}">Pasirinkite miesta</div>
@@ -45,7 +74,7 @@
             ></option>
         </select>
     </form>
-    <div class="forecast-block container">
+    <div class="forecast-block container" >
         <div th:if="${IndexModel.currentCityCode}">
             <table id="myTable" class="table mt-3">
                 <thead>

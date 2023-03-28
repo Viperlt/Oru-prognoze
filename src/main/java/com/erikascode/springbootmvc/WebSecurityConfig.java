@@ -24,6 +24,8 @@ public class WebSecurityConfig {
                 )
                 .logout((logout) -> logout.permitAll());
 
+        http.csrf().disable();
+
         return http.build();
     }
 
@@ -33,5 +35,5 @@ public class WebSecurityConfig {
         var passwordEncoder = new MessageDigestPasswordEncoder("SHA-1");
         return passwordEncoder;
     }
-    
+
 }
