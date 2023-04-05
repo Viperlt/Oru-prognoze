@@ -54,6 +54,7 @@
         <table id="myTable" class="table mt-3">
             <thead>
             <tr>
+                <th scope="col">ID</th>
                 <th scope="col">Data</th>
                 <th scope="col">Temperatura</th>
                 <th scope="col">Miestas</th>
@@ -62,10 +63,12 @@
             </thead>
             <tbody>
                 <tr th:each="forecast: ${myForecasts}">
-                    <td th:text="${forecast.date}"></td>
-                    <td th:text="${forecast.temperature}"></td>
-                    <td th:text="${forecast.city}"></td>
-                    <td><button class="btn btn-danger" onclick="delete(this)"> Istrinti </button>
+                    <td class="id-value" th:text="${forecast.id}"></td>
+                    <td class="date-value" th:text="${forecast.date}"></td>
+                    <td class="temperature-value" th:text="${forecast.temperature}"></td>
+                    <td class="city-value" th:text="${forecast.city}"></td>
+                    <td><button class="btn btn-danger" onclick="deleteForecast(this), reloadPage()"><i class="bi bi-trash"></i>
+                        </button>
                     </td>
                 </tr>
             </tbody>
@@ -79,6 +82,28 @@
 <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
 <script>
     let table = new DataTable('#myTable');
+
+    function deleteForecast(el) {
+        var parent = el.parentElement.parentElement;
+        var id = parent.getElementsByClassName("id-value")[0].textContent;
+
+        jQuery.ajax({
+            url: "http://localhost:8080/api/delete-my-forecast",
+            type: "POST",
+            data: JSON.stringify({
+                "id": id
+            }),
+            contentType: "application/json"
+        })
+        el.parentElement.getElementsByClassName("btn")[0].style.display = "none";
+        el.parentElement.getElementsByClassName("bi")[0].style.display = "block";
+    }
+
+    function reloadPage(){
+        setTimeout(() => {
+            document.location.reload();
+        }, 100);
+    }
 
 </script>
 </html>

@@ -81,6 +81,7 @@
                 <tr>
                     <th scope="col">Data</th>
                     <th scope="col">Temperatura</th>
+                    <th scope="col">Miestas</th>
                     <th scope="col"></th>
                 </tr>
                 </thead>
@@ -88,6 +89,7 @@
                     <tr th:each="forecast : ${IndexModel.forecasts}" >
                         <td class="date-value" th:text="${forecast.data}"></td>
                         <td class="temperature-value" th:text="${forecast.temperatura}"></td>
+                        <td class="city-value" th:text="${forecast.city}"></td>
                         <td><button class="btn btn-success" onclick="save(this)">
                                 <i class="bi bi-save"></i> Issaugoti
                             </button>
@@ -114,13 +116,15 @@
     var parent = el.parentElement.parentElement;
     var date = parent.getElementsByClassName("date-value")[0].textContent;
     var temperature = parent.getElementsByClassName("temperature-value")[0].textContent;
+    var city = parent.getElementsByClassName("city-value")[0].textContent;
 
     jQuery.ajax({
         url: "http://localhost:8080/api/forecast",
         type: "POST",
         data: JSON.stringify({
             "data": date,
-            "temperatura": temperature
+            "temperatura": temperature,
+            "city": city
         }),
         contentType: "application/json"
     })
