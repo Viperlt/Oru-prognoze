@@ -10,16 +10,19 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
 </head>
 <style>
-    .forecast-block{
+    .forecast-block {
         margin-top: 50px;
     }
+
     .ok {
         color: grey;
         display: none;
     }
+
     body, html {
         height: 100%;
     }
+
     .bg {
         background-image: url("https://cdn.pixabay.com/photo/2016/03/27/07/32/clouds-1282314__340.jpg");
         height: 100%;
@@ -27,44 +30,45 @@
         background-repeat: no-repeat;
         background-size: cover;
     }
+
 </style>
 <body class="container bg">
 
-    <div>
+<div>
+    <nav class="navbar navbar-light">
+
+        <ul class="navbar-nav">
+            <div class="d-flex flex-row align-items-center">
+                <li class="m-1">
+                    <a class="navbar-brand h1" style="pointer-events: none;" href="#">Oru Prognozes</a>
+                </li>
+                <li class="m-1">
+                    <a class="nav-link" href="http://localhost:8080/"> Namo </a>
+                </li>
+                <li class="m-2">
+                    <a class="nav-link" href="http://localhost:8080/my-forecasts"> Mano Prognozes </a>
+                </li>
+            </div>
+        </ul>
+        <div class="m-1">
+            <form class="form-inline" th:action="@{/logout}" method="post">
+                <input class="form-control" type="submit" value="Atsijungti"/>
+            </form>
+        </div>
+    </nav>
+</div>
+
+<div class="shadow-lg p-3 mb-5 rounded">
+    <div class="m-1">
         <h4 style="display:inline;">Sveiki, </h4>
         <h4 style="display:inline;" th:text="${IndexModel.userName}"></h4>
         <h4 style="display:inline;">!</h4>
     </div>
-
-    <div>
-        <nav class="navbar navbar-light">
-
-                <ul class="navbar-nav">
-                    <div class="d-flex flex-row align-items-center">
-                        <li class="m-1">
-                            <a class="navbar-brand h1" href="#">Oru Prognozes</a>
-                        </li>
-                        <li class="m-1">
-                            <a class="nav-link" href="http://localhost:8080/"> Namo </a>
-                        </li>
-                        <li class="m-2">
-                            <a class="nav-link" href="http://localhost:8080/my-forecasts"> Mano Prognozes </a>
-                        </li>
-                    </div>
-                </ul>
-            <div class="m-1">
-                <form class="form-inline" th:action="@{/logout}" method="post">
-                    <input class="form-control" type="submit" value="Atsijungti"/>
-                </form>
-            </div>
-        </nav>
-    </div>
-
     <div>
         <div th:if="${IndexModel.currentCityCode}"></div>
         <div th:unless="${IndexModel.currentCityCode}">Pasirinkite miesta</div>
     </div>
-    <form  method="get">
+    <form method="get">
         <select name="cityCode" onchange="this.form.submit()">
             <option></option>
             <option th:each="city : ${IndexModel.cities}"
@@ -74,7 +78,7 @@
             ></option>
         </select>
     </form>
-    <div class="forecast-block container" >
+    <div class="forecast-block container">
         <div th:if="${IndexModel.currentCityCode}">
             <table id="myTable" class="table mt-3">
                 <thead>
@@ -86,22 +90,24 @@
                 </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="forecast : ${IndexModel.forecasts}" >
-                        <td class="date-value" th:text="${forecast.data}"></td>
-                        <td class="temperature-value" th:text="${forecast.temperatura}"></td>
-                        <td class="city-value" th:text="${forecast.city}"></td>
-                        <td><button class="btn btn-success" onclick="save(this)">
-                                <i class="bi bi-save"></i> Issaugoti
-                            </button>
-                            <i class="ok bi bi-save-fill"></i>
-                        </td>
-                    </tr>
+                <tr th:each="forecast : ${IndexModel.forecasts}">
+                    <td class="date-value" th:text="${forecast.data}"></td>
+                    <td class="temperature-value" th:text="${forecast.temperatura}"></td>
+                    <td class="city-value" th:text="${forecast.city}"></td>
+                    <td>
+                        <button class="btn btn-success" onclick="save(this)">
+                            <i class="bi bi-save"></i> Issaugoti
+                        </button>
+                        <i class="ok bi bi-save-fill"></i>
+                    </td>
+                </tr>
                 </tbody>
             </table>
         </div>
         <div th:unless="${IndexModel.currentCityCode}">
         </div>
     </div>
+</div>
 </body>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
@@ -112,22 +118,22 @@
 <script>
     let table = new DataTable('#myTable');
 
-    function save(el){
-    var parent = el.parentElement.parentElement;
-    var date = parent.getElementsByClassName("date-value")[0].textContent;
-    var temperature = parent.getElementsByClassName("temperature-value")[0].textContent;
-    var city = parent.getElementsByClassName("city-value")[0].textContent;
+    function save(el) {
+        var parent = el.parentElement.parentElement;
+        var date = parent.getElementsByClassName("date-value")[0].textContent;
+        var temperature = parent.getElementsByClassName("temperature-value")[0].textContent;
+        var city = parent.getElementsByClassName("city-value")[0].textContent;
 
-    jQuery.ajax({
-        url: "http://localhost:8080/api/forecast",
-        type: "POST",
-        data: JSON.stringify({
-            "data": date,
-            "temperatura": temperature,
-            "city": city
-        }),
-        contentType: "application/json"
-    })
+        jQuery.ajax({
+            url: "http://localhost:8080/api/forecast",
+            type: "POST",
+            data: JSON.stringify({
+                "data": date,
+                "temperatura": temperature,
+                "city": city
+            }),
+            contentType: "application/json"
+        })
         el.parentElement.getElementsByClassName("btn")[0].style.display = "none";
         el.parentElement.getElementsByClassName("ok")[0].style.display = "block";
     }
