@@ -1,50 +1,57 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
-  <head>
+<head>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
           rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
           crossorigin="anonymous">
     <title>Prisijungimas </title>
     <style>
-      body, html {
-        height: 100%;
-      }
-      .bg {
-        background-image: url("https://images.unsplash.com/photo-1428908728789-d2de25dbd4e2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8MXx8fGVufDB8fHx8&w=1000&q=80");
-        height: 100%;
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: cover;
-      }
+        body, html {
+            height: 100%;
+        }
+
+        .bg {
+            background-image: url("https://images.unsplash.com/photo-1428908728789-d2de25dbd4e2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8MXx8fGVufDB8fHx8&w=1000&q=80");
+            height: 100%;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
     </style>
-  </head>
-  <body class="bg">
-    <div class="d-flex justify-content-center">
-      <h1>Prisijungimas prie orų prognozių</h1>
+</head>
+<body class="bg">
+<div class="d-flex justify-content-center">
+    <h1>Prisijungimas prie orų prognozių</h1>
+</div>
+
+<div class="d-flex justify-content-center shadow-lg p-3 mb-5 rounded">
+    <div class="d-flex flex-column">
+        <form th:action="@{/login}" method="post">
+            <div class="d-flex justify-content-center">
+                <label> Vardas: <input class="form-control" type="text" name="username"/> </label>
+            </div>
+            <div class="d-flex justify-content-center">
+                <label> Slaptažodis: <input class="form-control" type="password" name="password"/> </label>
+            </div>
+            <div class="d-flex justify-content-center mt-3">
+                <input class="btn btn-primary" type="submit" value="Prisijungti"/>
+            </div>
+            <div class="d-flex justify-content-center mt-3" th:if="${param.error}">
+                Neteisingas vardas arba slaptažodis.
+            </div>
+            <div class="d-flex justify-content-center mt-3" th:if="${param.logout}">
+                Jūs atsijungėte iš sistemos.
+            </div>
+        </form>
+        <div class="d-flex align-self-end m-3">
+            <input class="btn btn-light" onclick="location.href = 'http://localhost:8080/register';"
+                   value="Registracija"/>
+        </div>
     </div>
+</div>
 
-  <div class="d-flex justify-content-center shadow-lg p-3 mb-5 rounded">
-      <form th:action="@{/login}" method="post">
-        <div class="d-flex justify-content-center">
-          <label> Vardas: <input class="form-control" type="text" name="username"/> </label>
-        </div>
-        <div class="d-flex justify-content-center">
-          <label> Slaptažodis: <input class="form-control" type="password" name="password"/> </label>
-        </div>
-        <div class="d-flex justify-content-center mt-3">
-          <input class="btn btn-primary" type="submit" value="Prisijungti"/>
-        </div>
-        <div class="d-flex justify-content-center mt-3" th:if="${param.error}">
-          Neteisingas vardas arba slaptažodis.
-        </div>
-        <div class="d-flex justify-content-center mt-3" th:if="${param.logout}">
-          Jus atsijungėte iš sistemos.
-        </div>
-      </form>
-  </div>
-
-  </body>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
-          integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
-          crossorigin="anonymous"></script>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+        crossorigin="anonymous"></script>
 </html>
