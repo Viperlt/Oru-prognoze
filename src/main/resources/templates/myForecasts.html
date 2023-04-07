@@ -34,19 +34,19 @@
         <ul class="navbar-nav">
             <div class="d-flex flex-row align-items-center">
                 <li class="m-1">
-                    <a class="navbar-brand h1" style="pointer-events: none;" href="#">Oru Prognozes</a>
+                    <a class="navbar-brand h1" style="pointer-events: none;" href="#">Orų Prognozės</a>
                 </li>
                 <li class="m-1">
                     <a class="nav-link" href="http://localhost:8080/"> Namo </a>
                 </li>
                 <li class="m-2">
-                    <a class="nav-link" href="http://localhost:8080/my-forecasts"> Mano Prognozes </a>
+                    <a class="nav-link" href="http://localhost:8080/my-forecasts"> Mano Prognozės </a>
                 </li>
             </div>
         </ul>
         <div class="m-1">
             <form class="form-inline" th:action="@{/logout}" method="post">
-                <input class="form-control" type="submit" value="Atsijungti"/>
+                <input class="form-control btn btn-light" type="submit" value="Atsijungti"/>
             </form>
         </div>
     </nav>
@@ -58,7 +58,7 @@
         <tr>
             <th scope="col">ID</th>
             <th scope="col">Data</th>
-            <th scope="col">Temperatura</th>
+            <th scope="col">Temperatūra</th>
             <th scope="col">Miestas</th>
             <th scope="col"></th>
         </tr>
